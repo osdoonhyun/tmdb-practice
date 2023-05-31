@@ -2,35 +2,28 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-// const API_KEY = process.env.REACT_APP_API_KEY;
-const API_KEY = '68d3b58f0873761971218e8327d8873a';
-
 export default function Detail() {
-  const { detailId } = useParams(); // url에 있는 path(id값) 가져오기
-  const [movie, setMovie] = useState({});
-  const [tv, setTv] = useState({});
+  const { pathname, detailId } = useParams();
+  const [detailData, setDetailData] = useState({});
 
-  const getDetailTv = async (id) => {
+  console.log('pathname', pathname);
+  console.log('디테일 데이터------', detailData);
+  const getDetailData = async () => {
     try {
-      const address = `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}`;
-      const { data, status } = await axios.get(address);
-
-      if (status === 200) {
-        setTv(data);
-      }
-    } catch (error) {
-      console.log('tvError', error.message);
-    }
-  };
-
-  const getDetailMovie = async (id) => {
-    try {
-      const address = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`;
-      const { data, status } = await axios.get(address);
-      console.log('++++movie++', data.title);
+      const options = {
+        headers: {
+          accept: 'application/json',
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2OGQzYjU4ZjA4NzM3NjE5NzEyMThlODMyN2Q4ODczYSIsInN1YiI6IjY0NzA0OGMwMzM2ZTAxMDE0YjYyNWI3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3u9U1AFbLAEL6wblb4n0782dnv-doAEo2Ae5brSiz9g',
+        },
+      };
+      const address = `https://api.themoviedb.org/3/${pathname}/${detailId}?language=en-US'`;
+      const { data, status } = await axios.get(address, options);
+      console.log('++++movie++', data);
       console.log('++status++++', status);
       if (status === 200) {
-        setMovie(data);
+        setDetailData(data);
+        console.log('디테일 데이터+++++', data);
       }
     } catch (error) {
       console.log('movieError', error.message);
@@ -38,18 +31,12 @@ export default function Detail() {
   };
 
   useEffect(() => {
-    if (tv) {
-      getDetailTv(detailId);
-    }
-    if (movie) {
-      getDetailMovie(detailId);
-    }
+    getDetailData();
   }, []);
 
   return (
     <>
-      <h1>{movie && movie.title}</h1>
-      <h1>{tv && tv.name}</h1>
+      <h1>{detailData.title ? detailData.title : detailData.name}</h1>
     </>
   );
 }

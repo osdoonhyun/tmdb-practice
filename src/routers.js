@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     element: <Tvs />,
   },
   {
-    path: '/:detailId', // url의 변수가 들어갈 땐 ':'
+    path: '/:pathname/:detailId', // url의 변수가 들어갈 땐 ':'
     element: <Detail />,
   },
 ]);

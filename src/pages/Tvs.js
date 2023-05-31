@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-// const AuthorizationToken = process.env.REACT_APP_TMDB_AUTHORIZATION;
-const AuthorizationToken =
-  'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2OGQzYjU4ZjA4NzM3NjE5NzEyMThlODMyN2Q4ODczYSIsInN1YiI6IjY0NzA0OGMwMzM2ZTAxMDE0YjYyNWI3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3u9U1AFbLAEL6wblb4n0782dnv-doAEo2Ae5brSiz9g';
+const AuthorizationToken = process.env.REACT_APP_TMDB_AUTHORIZATION;
+// const AuthorizationToken =
+//   'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2OGQzYjU4ZjA4NzM3NjE5NzEyMThlODMyN2Q4ODczYSIsInN1YiI6IjY0NzA0OGMwMzM2ZTAxMDE0YjYyNWI3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3u9U1AFbLAEL6wblb4n0782dnv-doAEo2Ae5brSiz9g';
 
 export default function Tvs() {
   const [tvsData, setTvsData] = useState([]);
@@ -43,7 +43,7 @@ export default function Tvs() {
           tvsData.map((tv) => (
             <Col className='mt-5' key={tv.id}>
               <Card style={{ width: '18rem' }}>
-                <Link to={`/${tv.id}`}>
+                <Link to={`/tv/${tv.id}`}>
                   <Card.Img
                     variant='top'
                     src={`https://image.tmdb.org/t/p/w500${tv.poster_path}`}

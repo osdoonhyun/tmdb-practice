@@ -2,16 +2,17 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { BaseURL } from '../constants';
 
-// const AuthorizationToken = process.env.REACT_APP_TMDB_AUTHORIZATION;
-const AuthorizationToken =
-  'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2OGQzYjU4ZjA4NzM3NjE5NzEyMThlODMyN2Q4ODczYSIsInN1YiI6IjY0NzA0OGMwMzM2ZTAxMDE0YjYyNWI3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3u9U1AFbLAEL6wblb4n0782dnv-doAEo2Ae5brSiz9g';
+const AuthorizationToken = process.env.REACT_APP_TMDB_AUTHORIZATION;
+// const AuthorizationToken =
+// 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2OGQzYjU4ZjA4NzM3NjE5NzEyMThlODMyN2Q4ODczYSIsInN1YiI6IjY0NzA0OGMwMzM2ZTAxMDE0YjYyNWI3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3u9U1AFbLAEL6wblb4n0782dnv-doAEo2Ae5brSiz9g';
 
 export default function Moives() {
   const [moviesData, setMoviesData] = useState([]);
 
-  const address =
-    'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1';
+  axios.defaults.baseURL = BaseURL;
+  const address = '/movie/now_playing?language=en-US&page=1';
   const options = {
     headers: {
       accept: 'application/json',
@@ -43,7 +44,7 @@ export default function Moives() {
           moviesData.results.map((movie) => (
             <Col className='mt-5' key={movie.id}>
               <Card style={{ width: '18rem', height: '550px' }}>
-                <Link to={`/${movie.id}`}>
+                <Link to={`/movie/${movie.id}`}>
                   <Card.Img
                     variant='top'
                     style={{ height: '300px' }}
