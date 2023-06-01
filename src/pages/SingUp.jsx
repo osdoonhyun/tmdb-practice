@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 
@@ -16,7 +16,12 @@ export default function SingUp() {
   const [isVerification, setIsVerification] = useState(false);
   const [btnDisable, setBtnDisable] = useState(false);
 
-  console.log('email', email + emailCategory);
+  useEffect(() => {
+    if (email !== '' && emailCategory !== '') {
+      setBtnDisable(true);
+    }
+  }, [email, emailCategory]);
+
   const signUpHandler = async (e) => {
     e.preventDefault(); // 클릭시 로딩이 무한 반복됨
     const userInput = {
@@ -28,13 +33,6 @@ export default function SingUp() {
     console.log(userInput);
     // try {
     // } catch (error) {}
-  };
-
-  const verificationHandler = () => {
-    if (email !== '' && emailCategory !== '') {
-      // setBtnDisable(true);
-      setIsVerification(true);
-    }
   };
 
   const emailList = [
@@ -83,10 +81,10 @@ export default function SingUp() {
         </Form.Group>
 
         <Button
-          onClick={verificationHandler}
+          onClick={() => setIsVerification(true)}
           className='mb-3'
           variant='primary'
-          // disabled={btnDisable ? false : true}
+          disabled={btnDisable ? false : true}
         >
           이메일 인증하기
         </Button>
