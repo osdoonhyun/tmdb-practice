@@ -26,9 +26,9 @@ export default function SingUp() {
     e.preventDefault(); // 클릭시 로딩이 무한 반복됨
     const userInput = {
       email: email + emailCategory,
-      passWord,
+      passWord, // confirmPassword는 백한테 보내줄 필요없음
       userName,
-      // confirmPassword는 백한테 보내줄 필요없음
+      // 약관 동의 선택 항목
     };
     console.log(userInput);
     // try {
@@ -89,7 +89,7 @@ export default function SingUp() {
           이메일 인증하기
         </Button>
 
-        {isVerification ? (
+        {isVerification && (
           <Form.Group className='mb-3' controlId='formBasicPassword'>
             <Form.Text className='text-muted'>
               이메일로 전송된 인증코드를 입력해주세요.
@@ -104,7 +104,7 @@ export default function SingUp() {
               확인
             </Button>
           </Form.Group>
-        ) : null}
+        )}
 
         <Form.Group className='mb-3' controlId='formBasicPassword'>
           <Form.Label>비밀번호</Form.Label>
