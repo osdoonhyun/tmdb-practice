@@ -1,25 +1,42 @@
 import { useState } from 'react';
 import { Button, Col, Container, Form, Nav, Row } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function SingUp() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [emailCategory, setEmailCategory] = useState('');
 
-  const [passWord, setPassWord] = useState('');
+  const [password, setPassword] = useState('');
 
-  console.log('email', email + emailCategory);
   const signUpHandler = async (e) => {
     e.preventDefault(); // 클릭시 로딩이 무한 반복됨
     const userInput = {
       email: email + emailCategory,
-      passWord,
+      password,
 
       // confirmPassword는 백한테 보내줄 필요없음
     };
-    console.log(userInput);
-    // try {
-    // } catch (error) {}
+
+    try {
+      console.log('userInput', userInput);
+      const { data, status } = await axios.post(
+        'http://localhost:8080/api/users/login',
+        userInput
+      );
+      console.log('+++++++++', data);
+      console.log('---------', status);
+      if (status === 200) {
+        alert('Successful LogIn');
+        localStorage.setItem('token', data.token);
+        navigate('/');
+      }
+    } catch (error) {
+      console.log('loginError', error.message);
+    }
   };
 
   const emailList = [
@@ -55,8 +72,8 @@ export default function SingUp() {
             영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.
           </Form.Text>
           <Form.Control
-            value={passWord}
-            onChange={(e) => setPassWord(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             type='password'
             placeholder='비밀번호'
           />
