@@ -23,11 +23,8 @@ export default function Header() {
               <Nav.Link href='/'>{t('movie')}</Nav.Link>
               <Nav.Link href='/tv'>{t('tv')}</Nav.Link>
             </Nav>
-            <Nav>
-              <Nav.Link href='/login'>{t('login')}</Nav.Link>
-              <Nav.Link href='/signup'>{t('signup')}</Nav.Link>
-              <Nav.Link href='/profile'>{t('profile')}</Nav.Link>
 
+            <Nav>
               <NavDropdown
                 title={languageTitle}
                 id='collasible-nav-dropdown'
@@ -43,17 +40,26 @@ export default function Header() {
                   href='#action/3.3'
                   eventKey={['en-US', 'English']}
                 >
-                  영어
+                  English
                 </NavDropdown.Item>
                 {/* <NavDropdown.Divider /> */}
                 <NavDropdown.Item
                   href='#action/3.4'
-                  eventKey={['jp-JP', 'ジャパニーズ']}
+                  eventKey={['jp-JP', '日本語']}
                 >
-                  일본어
+                  日本語
                 </NavDropdown.Item>
-                <NavDropdown.Item href='#action/3.4'>중국어</NavDropdown.Item>
+                <NavDropdown.Item
+                  href='#action/3.4'
+                  eventKey={['cn-CN', '中国人']}
+                >
+                  中国人
+                </NavDropdown.Item>
               </NavDropdown>
+
+              <Nav.Link href='/login'>{t('login')}</Nav.Link>
+              <Nav.Link href='/signup'>{t('signup')}</Nav.Link>
+              <Nav.Link href='/profile'>{t('profile')}</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
