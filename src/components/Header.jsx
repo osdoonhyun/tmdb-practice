@@ -28,6 +28,7 @@ export default function Header() {
             <Nav>
               <Nav.Link href='/login'>LogIn</Nav.Link>
               <Nav.Link href='/signup'>SignUp</Nav.Link>
+              <Nav.Link href='/profile'>Profile</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
