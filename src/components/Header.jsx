@@ -1,8 +1,16 @@
+import { useState } from 'react';
 import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import i18n from '../lang/i18n';
 
 export default function Header() {
   const { t } = useTranslation();
+  const [languageTitle, setLanguageTitle] = useState('한국어');
+
+  const changeLanguage = (e) => {
+    i18n.changeLanguage(e.split(',')[0]);
+    setLanguageTitle(e.split(',')[1]);
+  };
 
   return (
     <>
@@ -20,11 +28,30 @@ export default function Header() {
               <Nav.Link href='/signup'>{t('signup')}</Nav.Link>
               <Nav.Link href='/profile'>{t('profile')}</Nav.Link>
 
-              <NavDropdown title={t('langselect')} id='collasible-nav-dropdown'>
-                <NavDropdown.Item href='#action/3.2'>한국어</NavDropdown.Item>
-                <NavDropdown.Item href='#action/3.3'>영어</NavDropdown.Item>
+              <NavDropdown
+                title={languageTitle}
+                id='collasible-nav-dropdown'
+                onSelect={changeLanguage}
+              >
+                <NavDropdown.Item
+                  href='#action/3.2'
+                  eventKey={['ko-KR', '한국어']}
+                >
+                  한국어
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  href='#action/3.3'
+                  eventKey={['en-US', 'English']}
+                >
+                  영어
+                </NavDropdown.Item>
                 {/* <NavDropdown.Divider /> */}
-                <NavDropdown.Item href='#action/3.4'>일본어</NavDropdown.Item>
+                <NavDropdown.Item
+                  href='#action/3.4'
+                  eventKey={['jp-JP', 'ジャパニーズ']}
+                >
+                  일본어
+                </NavDropdown.Item>
                 <NavDropdown.Item href='#action/3.4'>중국어</NavDropdown.Item>
               </NavDropdown>
             </Nav>
