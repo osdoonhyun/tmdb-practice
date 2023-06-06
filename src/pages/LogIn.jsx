@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Nav, Row } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 
 export default function SingUp() {
@@ -40,21 +40,9 @@ export default function SingUp() {
             <Form.Group as={Col} controlId='formGridCity'>
               <Form.Control
                 value={email}
+                placeholder='이메일'
                 onChange={(e) => setEmail(e.target.value)}
               />
-            </Form.Group>
-
-            <Form.Group as={Col} controlId='formGridState'>
-              <Form.Select
-                defaultValue='Choose...'
-                value={emailCategory}
-                onChange={(e) => setEmailCategory(e.target.value)}
-              >
-                <option>선택해주세요</option>
-                {emailList.map((email, index) => (
-                  <option key={index}>{email}</option>
-                ))}
-              </Form.Select>
             </Form.Group>
           </Row>
         </Form.Group>
@@ -74,10 +62,22 @@ export default function SingUp() {
           />
         </Form.Group>
 
-        <Button variant='primary' type='submit'>
-          Submit
-        </Button>
+        <div className='d-flex justify-content-center mt-4'>
+          <Button variant='primary' type='submit' className='w-100'>
+            로그인
+          </Button>
+        </div>
       </Form>
+      <div className='d-flex justify-content-center mt-3'>
+        <Nav as='ul'>
+          <Nav.Item as='li'>
+            <Nav.Link href='/reset-password'>비밀번호 재설정</Nav.Link>
+          </Nav.Item>
+          <Nav.Item as='li'>
+            <Nav.Link href='/signup'>회원가입</Nav.Link>
+          </Nav.Item>
+        </Nav>
+      </div>
     </FormContainer>
   );
 }

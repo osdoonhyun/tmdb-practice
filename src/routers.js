@@ -4,6 +4,7 @@ import Tvs from './pages/Tvs';
 import Detail from './pages/Detail';
 import SingUp from './pages/SingUp';
 import LogIn from './pages/LogIn';
+import ResetPassword from './pages/ResetPassword';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LogIn />,
+  },
+  {
+    path: '/reset-password',
+    element: <ResetPassword />,
   },
   {
     path: '/:pathname/:detailId', // url의 변수가 들어갈 땐 ':'
