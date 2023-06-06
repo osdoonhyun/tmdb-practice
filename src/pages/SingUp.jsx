@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function SingUp() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [emailCategory, setEmailCategory] = useState('');
   const [varificationCode, setVarificationCode] = useState('');
-  const [passWord, setPassWord] = useState('');
-  const [confirmPassWord, setConfirmPassWord] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [userName, setUserName] = useState('');
 
   const [isMarketingAgree, setIsMarketingAgree] = useState(false);
@@ -26,13 +29,24 @@ export default function SingUp() {
     e.preventDefault(); // 클릭시 로딩이 무한 반복됨
     const userInput = {
       email: email + emailCategory,
-      passWord, // confirmPassword는 백한테 보내줄 필요없음
-      userName,
+      password, // confirmPassword는 백한테 보내줄 필요없음
+      name: userName,
       // 약관 동의 선택 항목
     };
-    console.log(userInput);
-    // try {
-    // } catch (error) {}
+    try {
+      const { data, status } = await axios.post(
+        'http://localhost:8080/api/users',
+        userInput
+      );
+      console.log('+++++++++++', data);
+      console.log('----------', status);
+      if (status === 201) {
+        alert('Successful SignUp');
+        navigate('/login');
+      }
+    } catch (error) {
+      console.log('signupError', error.message);
+    }
   };
 
   const emailList = [
@@ -114,8 +128,8 @@ export default function SingUp() {
             영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.
           </Form.Text>
           <Form.Control
-            value={passWord}
-            onChange={(e) => setPassWord(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             type='password'
             placeholder='비밀번호'
           />
@@ -123,8 +137,8 @@ export default function SingUp() {
         <Form.Group className='mb-3' controlId='formBasicPassword'>
           <Form.Label>비밀번호 확인</Form.Label>
           <Form.Control
-            value={confirmPassWord}
-            onChange={(e) => setConfirmPassWord(e.target.value)}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             type='password'
             placeholder='비밀번호 확인'
           />
@@ -150,10 +164,11 @@ export default function SingUp() {
             <Form.Check key={index} type='checkbox' label={agree} />
           ))}
         </Form.Group>
-
-        <Button variant='primary' type='submit'>
-          Submit
-        </Button>
+        <div className='d-flex justify-content-center'>
+          <Button variant='primary' type='submit' className='w-100 mt-3'>
+            회원가입
+          </Button>
+        </div>
       </Form>
     </FormContainer>
   );
