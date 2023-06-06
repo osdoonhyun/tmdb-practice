@@ -16,7 +16,7 @@ export default function Header() {
     <>
       <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
         <Container>
-          <Navbar.Brand href='#home'>{t('title')}</Navbar.Brand>
+          <Navbar.Brand href='/'>{t('title')}</Navbar.Brand>
           <Navbar.Toggle aria-controls='responsive-navbar-nav' />
           <Navbar.Collapse id='responsive-navbar-nav'>
             <Nav className='me-auto'>
@@ -30,29 +30,17 @@ export default function Header() {
                 id='collasible-nav-dropdown'
                 onSelect={changeLanguage}
               >
-                <NavDropdown.Item
-                  href='#action/3.2'
-                  eventKey={['ko-KR', '한국어']}
-                >
+                <NavDropdown.Item eventKey={['ko-KR', '한국어']}>
                   한국어
                 </NavDropdown.Item>
-                <NavDropdown.Item
-                  href='#action/3.3'
-                  eventKey={['en-US', 'English']}
-                >
+                <NavDropdown.Item eventKey={['en-US', 'English']}>
                   English
                 </NavDropdown.Item>
                 {/* <NavDropdown.Divider /> */}
-                <NavDropdown.Item
-                  href='#action/3.4'
-                  eventKey={['jp-JP', '日本語']}
-                >
+                <NavDropdown.Item eventKey={['jp-JP', '日本語']}>
                   日本語
                 </NavDropdown.Item>
-                <NavDropdown.Item
-                  href='#action/3.4'
-                  eventKey={['cn-CN', '中国人']}
-                >
+                <NavDropdown.Item eventKey={['cn-CN', '中国人']}>
                   中国人
                 </NavDropdown.Item>
               </NavDropdown>
