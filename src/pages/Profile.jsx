@@ -1,5 +1,7 @@
 import axios from 'axios';
+import FormContainer from '../components/FormContainer';
 import { useEffect, useState } from 'react';
+import { Card, Image, ListGroup } from 'react-bootstrap';
 
 export default function Profile() {
   const [userInfo, setUserInfo] = useState({});
@@ -32,8 +34,25 @@ export default function Profile() {
   }, []);
 
   return (
-    <>
-      <h1>{userInfo.name}</h1>
-    </>
+    <FormContainer title='Profile'>
+      <Card style={{ width: '18rem' }}>
+        {/* <Card.Img variant='top' src='holder.js/100px180?text=Image cap' /> */}
+        <Image
+          src='https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg'
+          roundedCircle
+        />
+        <Card.Body>
+          {/* <Card.Title>유저 정보</Card.Title> */}
+          <Card.Text>{userInfo.name}</Card.Text>
+        </Card.Body>
+        <ListGroup className='list-group-flush'>
+          <ListGroup.Item>{userInfo.email}</ListGroup.Item>
+        </ListGroup>
+        <Card.Body>
+          <Card.Link href='#'>Card Link</Card.Link>
+          <Card.Link href='#'>Another Link</Card.Link>
+        </Card.Body>
+      </Card>
+    </FormContainer>
   );
 }
