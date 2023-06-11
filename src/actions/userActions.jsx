@@ -4,6 +4,9 @@ import {
   USER_LOGIN_FAIL,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
+  USER_SIGNUP_FAIL,
+  USER_SIGNUP_REQUEST,
+  USER_SIGNUP_SUCCESS,
 } from '../constants/userConstants';
 
 const mainAddress = 'http://localhost:8080/api';
@@ -46,4 +49,33 @@ const logoutUser = () => (dispatch) => {
   });
 };
 
-export { loginUser, logoutUser };
+const signupUser = (email, password, name) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_SIGNUP_REQUEST,
+    });
+
+    const { status } = await axios.post(`${mainAddress}/users`, {
+      email,
+      password,
+      name,
+    });
+
+    if (status === 201) {
+      dispatch({
+        type: USER_SIGNUP_SUCCESS,
+        payload: true,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: USER_SIGNUP_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export { loginUser, logoutUser, signupUser };

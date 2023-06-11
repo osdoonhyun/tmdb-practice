@@ -2,10 +2,11 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { userLoginReducer } from './reducers/userReducer';
+import { userLoginReducer, userSignupReducer } from './reducers/userReducer';
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
+  userSignup: userSignupReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo') // 또는 'token'
@@ -16,7 +17,7 @@ const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
 };
 
-const middleware = [thunk];
+const middleware = [thunk]; // thunk 라이브러리 추가 (비동기 방식으로 처리하기 위함)
 
 const store = createStore(
   reducer,
