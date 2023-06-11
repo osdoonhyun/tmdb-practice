@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Card, Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Col, Container, Row } from 'react-bootstrap';
 import { PosterCard } from '../components';
 
 const AuthorizationToken = process.env.REACT_APP_TMDB_AUTHORIZATION;

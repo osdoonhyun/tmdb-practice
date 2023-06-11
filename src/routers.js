@@ -1,11 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
-// import Moives from './pages/Moives';
-// import Tvs from './pages/Tvs';
-import { Moives, Tvs, SingUp, LogIn, Profile } from './pages';
+import { Moives, Tvs, SingUp, LogIn, Profile, ProductScreen } from './pages';
 import Detail from './pages/Detail';
-// import SingUp from './pages/SingUp';
-// import LogIn from './pages/LogIn';
-// import Profile from './pages/Profile';
 import ResetPassword from './pages/ResetPassword';
 
 const router = createBrowserRouter([
@@ -37,6 +32,12 @@ const router = createBrowserRouter([
     path: '/:pathname/:detailId', // url의 변수가 들어갈 땐 ':'
     element: <Detail />,
   },
+  {
+    path: '/product',
+    element: <ProductScreen />,
+  },
 ]);
+
+// URL 설계 : 소문자, camelCase 작성X, 단어와 단어 사이는 구분
 
 export default router;
