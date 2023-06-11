@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Card, Carousel, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { BaseURL } from '../constants';
+import { PosterCard } from '../components';
 
 const AuthorizationToken = process.env.REACT_APP_TMDB_AUTHORIZATION;
 // const AuthorizationToken =
@@ -87,35 +88,7 @@ export default function Moives() {
           {moviesData.results &&
             moviesData.results.map((movie) => (
               <Col className='mt-5' key={movie.id}>
-                <Card style={{ width: '18rem', height: '550px' }}>
-                  <Link to={`/movie/${movie.id}`}>
-                    <Card.Img
-                      variant='top'
-                      style={{ height: '300px' }}
-                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    />
-                  </Link>
-                  <Card.Body>
-                    <Card.Title>
-                      {movie.title.length <= 23
-                        ? movie.title
-                        : movie.title.slice(0, 23) + '...'}
-                    </Card.Title>
-                    <Card.Text>
-                      {movie.overview.length <= 120
-                        ? movie.overview
-                        : movie.overview.slice(0, 120) + '...'}
-                    </Card.Text>
-                  </Card.Body>
-                  <Card.Footer className='bg-primary'>
-                    <Card.Text style={{ fontSize: '15px' }}>
-                      개봉 날짜: {movie.release_date}
-                    </Card.Text>
-                    <Card.Text style={{ fontSize: '15px' }}>
-                      별점: {movie.vote_average}
-                    </Card.Text>
-                  </Card.Footer>
-                </Card>
+                <PosterCard pathname={'movie'} data={movie} />
               </Col>
             ))}
         </Row>

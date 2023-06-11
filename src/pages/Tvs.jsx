@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { PosterCard } from '../components';
 
 const AuthorizationToken = process.env.REACT_APP_TMDB_AUTHORIZATION;
 // const AuthorizationToken =
@@ -42,18 +43,7 @@ export default function Tvs() {
         {tvsData &&
           tvsData.map((tv) => (
             <Col className='mt-5' key={tv.id}>
-              <Card style={{ width: '18rem' }}>
-                <Link to={`/tv/${tv.id}`}>
-                  <Card.Img
-                    variant='top'
-                    src={`https://image.tmdb.org/t/p/w500${tv.poster_path}`}
-                  />
-                </Link>
-                <Card.Body>
-                  <Card.Title>{tv.name}</Card.Title>
-                  <Card.Text>{tv.overview}</Card.Text>
-                </Card.Body>
-              </Card>
+              <PosterCard pathname={'tv'} data={tv} />
             </Col>
           ))}
       </Row>
