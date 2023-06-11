@@ -1,43 +1,61 @@
-import { useState } from 'react';
-import { Button, Col, Container, Form, Nav, Row } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Alert, Button, Col, Form, Nav, Row, Spinner } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../actions/userActions';
 
 export default function SingUp() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
   const [emailCategory, setEmailCategory] = useState('');
 
   const [password, setPassword] = useState('');
 
-  const signUpHandler = async (e) => {
-    e.preventDefault(); // 클릭시 로딩이 무한 반복됨
-    const userInput = {
-      email: email + emailCategory,
-      password,
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
 
-      // confirmPassword는 백한테 보내줄 필요없음
-    };
+  const signUpHandler = (e) => {
+    // action
+    e.preventDefault();
 
-    try {
-      console.log('userInput', userInput);
-      const { data, status } = await axios.post(
-        'http://localhost:8080/api/users/login',
-        userInput
-      );
-      console.log('+++++++++', data);
-      console.log('---------', status);
-      if (status === 200) {
-        alert('Successful LogIn');
-        localStorage.setItem('token', data.token);
-        navigate('/');
-      }
-    } catch (error) {
-      console.log('loginError', error.message);
-    }
+    dispatch(loginUser(email + emailCategory, password));
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate('/');
+    }
+  }, [userInfo, navigate]); // navigate 상태를 봐준다.
+
+  // const signUpHandler = async (e) => {
+  //   e.preventDefault(); // 클릭시 로딩이 무한 반복됨
+  //   const userInput = {
+  //     email: email + emailCategory,
+  //     password,
+
+  //     // confirmPassword는 백한테 보내줄 필요없음
+  //   };
+
+  //   try {
+  //     console.log('userInput', userInput);
+  //     const { data, status } = await axios.post(
+  //       'http://localhost:8080/api/users/login',
+  //       userInput
+  //     );
+  //     console.log('+++++++++', data);
+  //     console.log('---------', status);
+  //     if (status === 200) {
+  //       alert('Successful LogIn');
+  //       localStorage.setItem('token', data.token);
+  //       navigate('/');
+  //     }
+  //   } catch (error) {
+  //     console.log('loginError', error.message);
+  //   }
+  // };
 
   const emailList = [
     '@naver.com',
@@ -50,6 +68,8 @@ export default function SingUp() {
 
   return (
     <FormContainer title='LogIn'>
+      {loading && <Spinner animation='border' />}
+      {error && <Alert variant='danger'>{error}</Alert>}
       <Form onSubmit={signUpHandler}>
         <Form.Group className='mb-3' controlId='formBasicEmail'>
           <Form.Label>이메일</Form.Label>
