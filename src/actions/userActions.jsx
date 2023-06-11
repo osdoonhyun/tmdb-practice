@@ -26,7 +26,7 @@ const loginUser = (email, password) => async (dispatch) => {
       });
     }
     localStorage.setItem('token', data.token); // 이렇게 하면 프로필 정보 가져올 때
-    localStorage.setItem('userInfo', data);
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
