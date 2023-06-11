@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../actions/userActions';
 
-export default function SingUp() {
+export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -17,7 +17,7 @@ export default function SingUp() {
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
 
-  const signUpHandler = (e) => {
+  const loginHandler = (e) => {
     // action
     e.preventDefault();
 
@@ -30,7 +30,7 @@ export default function SingUp() {
     }
   }, [userInfo, navigate]); // navigate 상태를 봐준다.
 
-  // const signUpHandler = async (e) => {
+  // const loginHandler = async (e) => {
   //   e.preventDefault(); // 클릭시 로딩이 무한 반복됨
   //   const userInput = {
   //     email: email + emailCategory,
@@ -57,20 +57,11 @@ export default function SingUp() {
   //   }
   // };
 
-  const emailList = [
-    '@naver.com',
-    '@hanmail.net',
-    '@daum.net',
-    '@gmail.com',
-    '@naver.com',
-    '@hotmail.com',
-  ];
-
   return (
     <FormContainer title='LogIn'>
       {loading && <Spinner animation='border' />}
       {error && <Alert variant='danger'>{error}</Alert>}
-      <Form onSubmit={signUpHandler}>
+      <Form onSubmit={loginHandler}>
         <Form.Group className='mb-3' controlId='formBasicEmail'>
           <Form.Label>이메일</Form.Label>
           <Row className='mb-2'>

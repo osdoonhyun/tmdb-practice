@@ -1,8 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import {
+  Alert,
+  Button,
+  Col,
+  Container,
+  Form,
+  Row,
+  Spinner,
+} from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signupUser } from '../actions/userActions';
 
 export default function SingUp() {
   const navigate = useNavigate();
@@ -19,34 +29,54 @@ export default function SingUp() {
   const [isVerification, setIsVerification] = useState(false);
   const [btnDisable, setBtnDisable] = useState(false);
 
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const userSignup = useSelector((state) => state.userSignup);
+  const { loading, error, success } = userSignup;
+
   useEffect(() => {
     if (email !== '' && emailCategory !== '') {
       setBtnDisable(true);
     }
   }, [email, emailCategory]);
 
+  useEffect(() => {
+    if (userInfo) {
+      navigate('/');
+    }
+    if (success) {
+      navigate('/login');
+    }
+  }, [userInfo, success, navigate]);
+
   const signUpHandler = async (e) => {
     e.preventDefault(); // 클릭시 로딩이 무한 반복됨
-    const userInput = {
-      email: email + emailCategory,
-      password, // confirmPassword는 백한테 보내줄 필요없음
-      name: userName,
-      // 약관 동의 선택 항목
-    };
-    try {
-      const { data, status } = await axios.post(
-        'http://localhost:8080/api/users',
-        userInput
-      );
-      console.log('+++++++++++', data);
-      console.log('----------', status);
-      if (status === 201) {
-        alert('Successful SignUp');
-        navigate('/login');
-      }
-    } catch (error) {
-      console.log('signupError', error.message);
-    }
+
+    dispatch(signupUser(email + emailCategory, password, userName));
+
+    // const userInput = {
+    //   email: email + emailCategory,
+    //   password, // confirmPassword는 백한테 보내줄 필요없음
+    //   name: userName,
+    //   // 약관 동의 선택 항목
+    // };
+    // try {
+    //   const { data, status } = await axios.post(
+    //     'http://localhost:8080/api/users',
+    //     userInput
+    //   );
+    //   console.log('+++++++++++', data);
+    //   console.log('----------', status);
+    //   if (status === 201) {
+    //     alert('Successful SignUp');
+    //     navigate('/login');
+    //   }
+    // } catch (error) {
+    //   console.log('signupError', error.message);
+    // }
   };
 
   const emailList = [
@@ -68,6 +98,8 @@ export default function SingUp() {
 
   return (
     <FormContainer title='SignUp'>
+      {loading && <Spinner />}
+      {error && <Alert variant='danger'>{error}</Alert>}
       <Form onSubmit={signUpHandler}>
         <Form.Group className='mb-3' controlId='formBasicEmail'>
           <Form.Label>이메일</Form.Label>
