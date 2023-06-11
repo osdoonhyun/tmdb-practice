@@ -3,6 +3,7 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_FAIL,
   USER_LOGIN_SUCCESS,
+  USER_LOGOUT,
 } from '../constants/userConstants';
 
 const mainAddress = 'http://localhost:8080/api';
@@ -37,4 +38,12 @@ const loginUser = (email, password) => async (dispatch) => {
   }
 };
 
-export { loginUser };
+const logoutUser = () => (dispatch) => {
+  localStorage.removeItem('userInfo');
+  localStorage.removeItem('token');
+  dispatch({
+    type: USER_LOGOUT,
+  });
+};
+
+export { loginUser, logoutUser };

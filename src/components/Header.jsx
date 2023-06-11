@@ -2,15 +2,27 @@ import { useState } from 'react';
 import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import i18n from '../lang/i18n';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../actions/userActions';
 
 export default function Header() {
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
   const [languageTitle, setLanguageTitle] = useState('한국어');
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
 
   const changeLanguage = (e) => {
     i18n.changeLanguage(e.split(',')[0]);
     setLanguageTitle(e.split(',')[1]);
   };
+
+  const logoutHandler = () => {
+    dispatch(logoutUser());
+  };
+  console.log('유저인포_+_+_+_+', userInfo);
 
   return (
     <>
@@ -44,10 +56,22 @@ export default function Header() {
                   中国人
                 </NavDropdown.Item>
               </NavDropdown>
-
-              <Nav.Link href='/login'>{t('login')}</Nav.Link>
-              <Nav.Link href='/signup'>{t('signup')}</Nav.Link>
-              <Nav.Link href='/profile'>{t('profile')}</Nav.Link>
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id='collasible-nav-dropdown'>
+                  <NavDropdown.Item>프로필</NavDropdown.Item>
+                  <NavDropdown.Item>장바구니</NavDropdown.Item>
+                  {/* <NavDropdown.Divider /> */}
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    로그아웃
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <>
+                  <Nav.Link href='/login'>{t('login')}</Nav.Link>
+                  <Nav.Link href='/signup'>{t('signup')}</Nav.Link>
+                  <Nav.Link href='/profile'>{t('profile')}</Nav.Link>
+                </>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
