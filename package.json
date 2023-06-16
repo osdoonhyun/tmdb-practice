@@ -14,6 +14,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^12.3.1",
     "react-redux": "^8.0.7",
+    "react-router-bootstrap": "^0.26.2",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
@@ -22,7 +23,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "HTTPS=true SSL_CRT_FILE=$CERT_CERT_PEM SSL_KEY_FILE=$CERT_KEY_PEM react-scripts start",
+    "start": "HTTPS=true SSL_CRT_FILE=./.cert/cert.pem SSL_KEY_FILE=./.cert/key.pem react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
