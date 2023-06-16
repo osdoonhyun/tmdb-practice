@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Moives, Tvs, SingUp, LogIn, Profile, ProductScreen } from './pages';
+import { Moives, Tvs, SingUp, LogIn, Profile, Products } from './pages';
 import Detail from './pages/Detail';
 import ResetPassword from './pages/ResetPassword';
 
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/product',
-    element: <ProductScreen />,
+    element: <Products />,
   },
 ]);
 
