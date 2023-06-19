@@ -3,10 +3,12 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { userLoginReducer, userSignupReducer } from './reducers/userReducer';
+import { productReducer } from './reducers/productReducer';
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userSignup: userSignupReducer,
+  getProducts: productReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo') // 또는 'token'
