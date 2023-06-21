@@ -4,12 +4,17 @@ import { useTranslation } from 'react-i18next';
 import i18n from '../lang/i18n';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../actions/userActions';
+import ProductNav from './ProductNav';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
   const dispatch = useDispatch();
+  // const navigate = useNavigate();
 
   const { t } = useTranslation();
   const [languageTitle, setLanguageTitle] = useState('한국어');
+
+  const categories = ['All', 'LapTop', 'Mobile', 'iPad', 'Watch', 'AirPods'];
 
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
@@ -21,6 +26,7 @@ export default function Header() {
 
   const logoutHandler = () => {
     dispatch(logoutUser());
+    // navigate('/');
   };
   console.log('유저인포_+_+_+_+', userInfo);
 
@@ -31,10 +37,7 @@ export default function Header() {
           <Navbar.Brand href='/'>{t('title')}</Navbar.Brand>
           <Navbar.Toggle aria-controls='responsive-navbar-nav' />
           <Navbar.Collapse id='responsive-navbar-nav'>
-            <Nav className='me-auto'>
-              <Nav.Link href='/'>{t('movie')}</Nav.Link>
-              <Nav.Link href='/tv'>{t('tv')}</Nav.Link>
-            </Nav>
+            <ProductNav categories={categories} />
 
             <Nav>
               <NavDropdown
@@ -56,20 +59,49 @@ export default function Header() {
                   中国人
                 </NavDropdown.Item>
               </NavDropdown>
-              {userInfo ? (
-                <NavDropdown title={userInfo.name} id='collasible-nav-dropdown'>
-                  <NavDropdown.Item>프로필</NavDropdown.Item>
-                  <NavDropdown.Item>장바구니</NavDropdown.Item>
-                  {/* <NavDropdown.Divider /> */}
+              {/* {userInfo && userInfo.isAdmin && (
+                <NavDropdown title='Admin' id='collasible-nav-dropdown'>
+                  <NavDropdown.Item>유저관리</NavDropdown.Item>
+                  <NavDropdown.Item>제품관리</NavDropdown.Item>
+                  <NavDropdown.Item>주문관리</NavDropdown.Item>
                   <NavDropdown.Item onClick={logoutHandler}>
                     로그아웃
                   </NavDropdown.Item>
                 </NavDropdown>
+              )} */}
+              {userInfo ? (
+                userInfo.isAdmin ? (
+                  userInfo.isAdmin && (
+                    <NavDropdown title='Admin' id='collasible-nav-dropdown'>
+                      <NavDropdown.Item href='/profile'>
+                        프로필
+                      </NavDropdown.Item>
+                      <NavDropdown.Divider />
+                      <NavDropdown.Item>유저관리</NavDropdown.Item>
+                      <NavDropdown.Item>제품관리</NavDropdown.Item>
+                      <NavDropdown.Item>주문관리</NavDropdown.Item>
+                      <NavDropdown.Item onClick={logoutHandler}>
+                        로그아웃
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  )
+                ) : (
+                  <NavDropdown
+                    title={userInfo?.name}
+                    id='collasible-nav-dropdown'
+                  >
+                    <NavDropdown.Item href='/profile'>프로필</NavDropdown.Item>
+                    <NavDropdown.Item>장바구니</NavDropdown.Item>
+                    <NavDropdown.Item onClick={logoutHandler}>
+                      로그아웃
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                )
               ) : (
                 <>
                   <Nav.Link href='/login'>{t('login')}</Nav.Link>
                   <Nav.Link href='/signup'>{t('signup')}</Nav.Link>
-                  <Nav.Link href='/profile'>{t('profile')}</Nav.Link>
+                  {/* <Nav.Link href='/profile'>{t('profile')}</Nav.Link> */}
                 </>
               )}
             </Nav>
