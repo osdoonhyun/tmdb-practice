@@ -1,58 +1,87 @@
-import axios from 'axios';
 import FormContainer from '../components/FormContainer';
 import { useEffect, useState } from 'react';
-import { Card, Image, ListGroup } from 'react-bootstrap';
+import { Alert, Button, Col, Form, Row, Spinner } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 export default function Profile() {
-  const [userInfo, setUserInfo] = useState({});
-
-  const getUserInfo = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const config = {
-        headers: {
-          Authorization: 'Bearer ' + token.toString(),
-        },
-      };
-      console.log('config', config);
-      const { data, status } = await axios.get(
-        'http://localhost:8080/api/users/profile',
-        config
-      ); // header 값이 있을 경우엔 넣어주어야 한다.
-      console.log('++++++++++', data);
-      console.log('----------', status);
-      if (status === 200) {
-        setUserInfo(data);
-      }
-    } catch (error) {
-      console.log('profileError', error.message);
-    }
-  };
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [userName, setUserName] = useState('');
 
   useEffect(() => {
-    getUserInfo();
+    setEmail(userInfo.email);
+    setPassword(userInfo.password);
+    setUserName(userInfo.name);
   }, []);
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
   return (
-    <FormContainer title='Profile'>
-      <Card style={{ width: '18rem' }}>
-        {/* <Card.Img variant='top' src='holder.js/100px180?text=Image cap' /> */}
-        <Image
-          src='https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg'
-          roundedCircle
-        />
-        <Card.Body>
-          {/* <Card.Title>유저 정보</Card.Title> */}
-          <Card.Text>{userInfo.name}</Card.Text>
-        </Card.Body>
-        <ListGroup className='list-group-flush'>
-          <ListGroup.Item>{userInfo.email}</ListGroup.Item>
-        </ListGroup>
-        <Card.Body>
-          <Card.Link href='#'>Card Link</Card.Link>
-          <Card.Link href='#'>Another Link</Card.Link>
-        </Card.Body>
-      </Card>
+    <FormContainer title={`${userInfo.name}님 반갑습니다.`}>
+      {loading && <Spinner />}
+      {error && <Alert variant='danger'>{error}</Alert>}
+      <Form>
+        <Form.Group className='mb-3' controlId='formBasicEmail'>
+          <Form.Label>이메일</Form.Label>
+          <Row className='mb-2'>
+            <Form.Group as={Col} controlId='formGridCity'>
+              <Form.Control
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled
+              />
+            </Form.Group>
+          </Row>
+        </Form.Group>
+
+        <Form.Group className='mb-3' controlId='formBasicPassword'>
+          <Form.Label>비밀번호</Form.Label>
+          <br />
+
+          <Form.Text className='text-muted'>
+            영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.
+          </Form.Text>
+          <Form.Control
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type='text'
+            placeholder='비밀번호'
+          />
+        </Form.Group>
+
+        <Form.Group
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          className='mb-3'
+          controlId='formBasicPassword'
+        >
+          <Form.Label>닉네임</Form.Label>
+          <Form.Control
+            value={userName}
+            onChange={(e) => setPassword(e.target.value)}
+            type='text'
+            placeholder='닉네임'
+          />
+          <br />
+        </Form.Group>
+        <Row>
+          <Col>
+            <div className='d-flex justify-content-center'>
+              <Button variant='primary' type='submit' className='w-100 mt-3'>
+                수정하기
+              </Button>
+            </div>
+          </Col>
+          <Col>
+            <div className='d-flex justify-content-center'>
+              <Button variant='danger' type='submit' className='w-100 mt-3'>
+                탈퇴하기
+              </Button>
+            </div>
+          </Col>
+        </Row>
+      </Form>
     </FormContainer>
   );
 }
