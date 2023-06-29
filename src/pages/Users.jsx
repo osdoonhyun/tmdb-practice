@@ -34,7 +34,7 @@ export default function Users() {
   const updateUserByAdmin = useSelector((state) => state.updateUserByAdmin);
   const {
     loading: updateLoading,
-    users: updateUsers,
+    result: updateUser,
     error: updateError,
   } = updateUserByAdmin;
 
@@ -63,18 +63,17 @@ export default function Users() {
 
   const [selectedData, setSelectedData] = useState(null);
 
-  // const config = {
-  //   headers: {
-  //     Authorization: 'Bearer ' + localStorage.getItem('token'),
-  //   },
-  // };
-
   console.log('선택된 데이터', selectedData);
   console.log('전체 유저 데이터', users);
 
   // 그리고 여기에 인수에 들어가는 값들이 만약 글로벌하다면, 인수로 사용하지 않아도 되는지? users와 selectedData 값을 이렇게 넣어줘도 되는지?
   const updateUserHandler = (id) => {
-    dispatch(adminUpdateUser(users, selectedData, id));
+    const updatedData = {
+      email,
+      username,
+      isAdmin,
+    };
+    dispatch(adminUpdateUser(updatedData, id));
   };
 
   const deleteUserHandler = (id) => {
@@ -154,7 +153,10 @@ export default function Users() {
     if (deleteUser) {
       setShow(false);
     }
-  }, [dispatch, navigate, deleteUser]);
+    if (updateUser) {
+      setEditShow(false);
+    }
+  }, [dispatch, navigate, deleteUser, updateUser]);
 
   return (
     <FormContainer title={'유저 리스트'} style={{ maxWidth: '800px' }}>
@@ -293,20 +295,30 @@ export default function Users() {
 
             <Form.Group className='mb-3' controlId='exampleForm.ControlInput1'>
               <Form.Label>유저 이름</Form.Label>
-              <Form.Control type='text' placeholder={selectedData?.name} />
+              <Form.Control
+                type='text'
+                placeholder={selectedData?.name}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </Form.Group>
 
             <Form.Group className='mb-3' controlId='formBasicPassword'>
               <Form.Label>유저 등급</Form.Label>
-              <Form.Select aria-label='Default select example'>
+              <Form.Select
+                aria-label='Default select example'
+                onChange={(e) => {
+                  console.log('유저등급 클릭함!!!', e.target.value);
+                  setIsAdmin(e.target.value);
+                }}
+              >
                 <option value='default'>
                   {selectedData?.isAdmin ? '관리자' : '유저'}
                 </option>
                 <option value='select' disabled>
                   선택해 주세요
                 </option>
-                <option value='user'>유저</option>
-                <option value='admin'>관리자</option>
+                <option value='false'>유저</option>
+                <option value='true'>관리자</option>
               </Form.Select>
             </Form.Group>
 
