@@ -43,19 +43,19 @@ const adminGetUsers = () => async (dispatch) => {
   }
 };
 
-const adminUpdateUser = (users, updatedUser, id) => async (dispatch) => {
+const adminUpdateUser = (updatedUser, id) => async (dispatch) => {
   const address = mainAddress + `/users/${id}`;
   try {
     dispatch({
       type: ADMIN_UPDATE_USER_REQUEST,
     });
 
-    const { data, status } = await axios.put(address, updatedUser, config);
+    const { status } = await axios.put(address, updatedUser, config);
 
     if (status === 200) {
       dispatch({
         type: ADMIN_UPDATE_USER_SUCCESS,
-        payload: data,
+        payload: true,
       });
     }
   } catch (error) {

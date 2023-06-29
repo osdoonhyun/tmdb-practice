@@ -28,7 +28,7 @@ const adminUpdateUserReducer = (state = {}, action) => {
     case ADMIN_UPDATE_USER_REQUEST:
       return { loading: true };
     case ADMIN_UPDATE_USER_SUCCESS:
-      return { loading: false, user: action.payload };
+      return { loading: false, result: action.payload };
     case ADMIN_UPDATE_USER_FAIL:
       return { loading: false, error: action.payload };
     default:
