@@ -4,11 +4,19 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { userLoginReducer, userSignupReducer } from './reducers/userReducer';
 import { productReducer } from './reducers/productReducer';
+import {
+  adminGetUsersReducer,
+  adminUpdateUserReducer,
+  adminDeleteUserReducer,
+} from './reducers/adminReducer';
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userSignup: userSignupReducer,
   getProducts: productReducer,
+  getUsersByAdmin: adminGetUsersReducer,
+  updateUserByAdmin: adminUpdateUserReducer,
+  deleteUserByAdmin: adminDeleteUserReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo') // 또는 'token'
