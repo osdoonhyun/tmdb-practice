@@ -69,22 +69,23 @@ export default function Header() {
                   </NavDropdown.Item>
                 </NavDropdown>
               )} */}
+
               {userInfo ? (
                 userInfo.isAdmin ? (
-                  userInfo.isAdmin && (
-                    <NavDropdown title='Admin' id='collasible-nav-dropdown'>
-                      <NavDropdown.Item href='/profile'>
-                        프로필
-                      </NavDropdown.Item>
-                      <NavDropdown.Divider />
-                      <NavDropdown.Item>유저관리</NavDropdown.Item>
-                      <NavDropdown.Item>제품관리</NavDropdown.Item>
-                      <NavDropdown.Item>주문관리</NavDropdown.Item>
-                      <NavDropdown.Item onClick={logoutHandler}>
-                        로그아웃
-                      </NavDropdown.Item>
-                    </NavDropdown>
-                  )
+                  <NavDropdown title='Admin' id='collasible-nav-dropdown'>
+                    <NavDropdown.Item href='/profile'>프로필</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href='/admin/users'>
+                      유저관리
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href='/admin/products'>
+                      제품관리
+                    </NavDropdown.Item>
+                    <NavDropdown.Item>주문관리</NavDropdown.Item>
+                    <NavDropdown.Item onClick={logoutHandler}>
+                      로그아웃
+                    </NavDropdown.Item>
+                  </NavDropdown>
                 ) : (
                   <NavDropdown
                     title={userInfo?.name}
@@ -101,7 +102,7 @@ export default function Header() {
                 <>
                   <Nav.Link href='/login'>{t('login')}</Nav.Link>
                   <Nav.Link href='/signup'>{t('signup')}</Nav.Link>
-                  {/* <Nav.Link href='/profile'>{t('profile')}</Nav.Link> */}
+                  <Nav.Link href='/profile'>{t('profile')}</Nav.Link>
                 </>
               )}
             </Nav>

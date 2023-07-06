@@ -99,10 +99,16 @@ export default function Login() {
       <div className='d-flex justify-content-center mt-3'>
         <Nav as='ul'>
           <Nav.Item as='li'>
-            <Nav.Link href='/reset-password'>비밀번호 재설정</Nav.Link>
+            <Nav.Link href='/signup'>회원가입</Nav.Link>
           </Nav.Item>
           <Nav.Item as='li'>
-            <Nav.Link href='/signup'>회원가입</Nav.Link>
+            <Nav.Link href='/findid'>아이디 찾기</Nav.Link>
+          </Nav.Item>
+          <Nav.Item as='li'>
+            <Nav.Link href='/findpassword'>비밀번호 찾기</Nav.Link>
+          </Nav.Item>
+          <Nav.Item as='li'>
+            <Nav.Link href='/reset-password'>비밀번호 재설정</Nav.Link>
           </Nav.Item>
         </Nav>
       </div>
