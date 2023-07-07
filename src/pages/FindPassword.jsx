@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function FindPassword() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
-  const findIdHandler = (e) => {
+  const findPasswordHandler = (e) => {
     e.preventDefault();
 
     console.log('아이디찾기');
@@ -14,12 +15,20 @@ export default function FindPassword() {
   return (
     <FormContainer>
       <h1 className='mb-4'>비밀번호 찾기</h1>
-      <Form onSubmit={findIdHandler} className='mb-3'>
-        <Form.Text className='d-flex justify-content-center'>
-          비밀번호를 찾고자하는 아이디를 입력해주세요.
-        </Form.Text>
-        <Form.Group className='mb-3' controlId='formBasicEmail'>
-          <Form.Label>이메일</Form.Label>
+      <Form onSubmit={findPasswordHandler} className='mb-3'>
+        <Form.Group className='mb-3' as={Col} controlId='formGridCity'>
+          <Form.Label className='text-muted'>이름</Form.Label>
+          <Form.Control
+            value={name}
+            placeholder='이름'
+            onChange={(e) => setName(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group lassName='mb-3' controlId='formBasicEmail'>
+          <Form.Text className='d-flex justify-content-center'>
+            비밀번호를 찾고자하는 아이디를 입력해주세요.
+          </Form.Text>
+          <Form.Label className='text-muted'>이메일</Form.Label>
           <Row className='mb-2'>
             <Form.Group as={Col} controlId='formGridCity'>
               <Form.Control
