@@ -37,6 +37,44 @@ export default function SingUp() {
   const userSignup = useSelector((state) => state.userSignup);
   const { loading, error, success } = userSignup;
 
+  const emailVerification = async () => {
+    // 등록된 이메일인지 확인 추가 예정
+    try {
+      const userInput = {
+        email: email + emailCategory,
+      };
+      const { statusCode, data } = await axios.post(
+        'http://localhost:3000/api/auth/email/send',
+        userInput
+      );
+      console.log('이메일인증 버튼', statusCode, data);
+    } catch (error) {
+      console.log('Email Verification Error', error.message);
+    }
+    setIsVerification(true);
+  };
+
+  const emailCodeVerification = async () => {
+    try {
+      const userInput = {
+        email: email + emailCategory,
+        code: varificationCode,
+      };
+      const { statusCode, data } = await axios.post(
+        'http://localhost:3000/api/auth/email/check',
+        userInput
+      );
+      if (statusCode === 201) {
+        setIsVerification(false);
+        return;
+      }
+
+      console.log('Email Code Verification', statusCode, data);
+    } catch (error) {
+      console.log('Email Code Verification', error.message);
+    }
+  };
+
   useEffect(() => {
     if (email !== '' && emailCategory !== '') {
       setBtnDisable(true);
@@ -127,7 +165,7 @@ export default function SingUp() {
         </Form.Group>
 
         <Button
-          onClick={() => setIsVerification(true)}
+          onClick={emailVerification}
           className='mb-3'
           variant='primary'
           disabled={btnDisable ? false : true}
@@ -146,7 +184,12 @@ export default function SingUp() {
               type='password'
               placeholder='인증코드 6자리 입력'
             />
-            <Button className='mt-3' variant='primary' type='submit'>
+            <Button
+              className='mt-3'
+              variant='primary'
+              onClick={emailCodeVerification}
+              type='submit'
+            >
               확인
             </Button>
           </Form.Group>
